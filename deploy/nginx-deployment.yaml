@@ -19,8 +19,18 @@ spec:
       containers:
       - name: nginx
         image: nginx:latest
+        volumeMounts:
+        - mountPath: /var/cache/nginx
+          name: nginx-cache
+        securityContext:
+          runAsUser: 101  # Default Nginx user
+          runAsGroup: 101
+          fsGroup: 101
         ports:
         - containerPort: 80
+      volumes:
+      - name: nginx-cache
+        emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
